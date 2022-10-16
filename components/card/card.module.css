@@ -43,7 +43,7 @@
     left: 0px;
   
     border-radius: 0.375rem /* 6px */;
-    object-fit: cover;
+    object-fit:fill;
   
     object-position: center;
     display: block;
