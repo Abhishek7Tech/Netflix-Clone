@@ -9,24 +9,22 @@ const Login = () => {
 
   const [email, setEmail] = useState("");
   const [usrMsg, showUserMsg] = useState("");
-  const[isLoading,setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   //handleling router events//
-  useEffect(()=> {
+  useEffect(() => {
     const handleComplete = () => {
       setIsLoading(false);
-    }
+    };
 
     router.events.on("routeChangeComplete", handleComplete);
-    router.events.on("routeChangeError",handleComplete);
+    router.events.on("routeChangeError", handleComplete);
 
     return () => {
-      router.events.off("routeChangeComplete",handleComplete);
+      router.events.off("routeChangeComplete", handleComplete);
       router.events.off("routeChangeError", handleComplete);
-    }
-
-  },[router]);
-
+    };
+  }, [router]);
 
   const handleEmailInput = (e) => {
     e.preventDefault();
@@ -54,9 +52,19 @@ const Login = () => {
 
       try {
         const token = await magic.auth.loginWithMagicLink({ email });
-        console.log(token);
+
         setIsLoading(true);
         if (token) {
+          const response = await fetch("/api/login", {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          });
+
+          const loggedInResponse = await response.json();
+          console.log(loggedInResponse);
           setIsLoading(true);
           router.push("/");
         }
@@ -100,7 +108,7 @@ const Login = () => {
           ></input>
           {usrMsg && <p className={styles.userMsg}> {usrMsg} </p>}
           <button onClick={handleLoginWithEmail} className={styles.loginBtn}>
-           {isLoading ? "Loading..." : "Sign in"}
+            {isLoading ? "Loading..." : "Sign in"}
           </button>
         </div>
       </main>

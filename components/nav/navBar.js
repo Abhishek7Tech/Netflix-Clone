@@ -11,9 +11,13 @@ export const Navbar = () => {
   useEffect(() => {
     const getUserEmail = async () => {
       try {
-        const {email} = await magic.user.getMetadata();
+        const {email,issuer} = await magic.user.getMetadata();
         console.log(email);
         setEmail(email);
+
+        const idToken = await magic.user.getIdToken();
+        console.log({idToken});
+
       } catch (error) {
         console.log("Email address is invalid", error.message);
       }

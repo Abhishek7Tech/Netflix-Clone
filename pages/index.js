@@ -7,7 +7,6 @@ import { getPopularVideos, getVideos } from "../lib/videos";
 //ServerSide Rendering//
 export async function getServerSideProps() {
   const animeVideos = await getVideos("anime trailer");
-  console.log({animeVideos});
   const documentryVideos = await getVideos("netflix documentry trailer");
   const travelVideos = await getVideos("travel videos");
   const popularVideos = await getPopularVideos();
