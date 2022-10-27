@@ -23,10 +23,8 @@ export default async function login(req, res) {
         process.env.JWT_SECRET
       );
 
-      console.log({ jwtToken });
       const isANewUser = await isNewUser(jwtToken, metaData.issuer);
 
-      console.log({ isANewUser });
 
       if (isANewUser) {
          await createNewUser(jwtToken, metaData);

@@ -33,7 +33,6 @@ const Login = () => {
   };
   const handleLoginWithEmail = async (e) => {
     e.preventDefault();
-    console.log("Hi There");
 
     if (!email.includes("@")) {
       showUserMsg("Email is Required.");

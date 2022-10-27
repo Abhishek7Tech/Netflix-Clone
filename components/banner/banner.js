@@ -6,7 +6,6 @@ export const Banner = (props) => {
   const router = useRouter();
 
   const handleOnPlay = () => {
-    console.log("Play Clicked");
     router.push(`/videos/${videoId}`);
   };
   return (

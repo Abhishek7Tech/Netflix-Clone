@@ -16,7 +16,6 @@ export const Navbar = () => {
         setEmail(email);
 
         const idToken = await magic.user.getIdToken();
-        console.log({idToken});
         setToken(idToken);
 
       } catch (error) {
@@ -52,8 +51,7 @@ export const Navbar = () => {
       const response = await fetch("/api/logout",{
        method:"GET"
       });
-      const loggedOut = await response.json();
-      console.log(loggedOut);
+       await response.json();
     }catch (error) {
       console.error("Error Retriving email",error);
       router.push("/login");

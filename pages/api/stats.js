@@ -6,7 +6,6 @@ import {
 import { verifyToken } from "../../lib/utils";
 
 export default async function Stats(req, res) {
-  console.log(req.query);
   const token = req.cookies.token;
 
   try {

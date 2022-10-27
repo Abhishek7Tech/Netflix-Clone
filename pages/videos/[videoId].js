@@ -13,7 +13,6 @@ Modal.setAppElement("#__next");
 export async function getStaticProps(context) {
   const videoId = context.params.videoId;
   const videoArray = await getSpecificVideo(videoId);
-  console.log(typeof videoArray);
   const video = videoArray.length > 0 ? videoArray[0] : {};
   // const video = {};
 
@@ -51,7 +50,6 @@ const Videos = ({ video }) => {
 
       if(data > 0){
         const favourited = data.stats[0].favourited;
-        console.log(favourited);
 
         favourited === 1 ? setToggleLike(true) : setToggleDislike(true);
       }
@@ -73,30 +71,25 @@ const Videos = ({ video }) => {
   };
 
   const toggleLikeHandler = async () => {
-    console.log("toggleLikeHandler");
     setToggleLike(!toggleLike);
     setToggleDislike(toggleLike);
 
     const val = !toggleLike;
     const favourites = val ? 1 : 0;
-    const response = await getFavourites(favourites);
+ await getFavourites(favourites);
 
-    console.log(await response.json());
   };
 
   const toggleDislikeHandler = async () => {
-    console.log("toggleDislikeHandler");
     setToggleDislike(!toggleDislike);
     setToggleLike(toggleDislike);
 
     const val = !toggleDislike;
 
     const favourites = val ? 0 : 1;
-    const response = await getFavourites(favourites);
+ await getFavourites(favourites);
 
-    console.log(await response.json());
   };
-  console.log(video);
 
   const {
     title,

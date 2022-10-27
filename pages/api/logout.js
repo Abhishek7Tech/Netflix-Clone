@@ -1,20 +1,23 @@
-import  Jwt  from "jsonwebtoken"; 
+import  Jwt  from "jsonwebtoken";
+import { magicAdmin} from "../../lib/db/magic";
 import { setTokenCookie } from "../../lib/cookie";
-
+import { verifyToken } from "../../lib/utils";
 export default async function logout(req, res) {
     
     const auth = req.headers.cookie;
     const token = auth ? auth.substr(6) : "";
-
+    
+    if (token === null) {
+        res.writeHead(302, { Location: "/login" });
+        res.end();
+    }
     try{
-        const isAValidToken = Jwt.verify(token,process.env.JWT_SECRET);
-
+        const isAValidToken = await verifyToken(token);
+        await magicAdmin.users.logoutByIssuer(token);
         if(isAValidToken){
-            setTokenCookie(null,res);
             res.send({msg:"Logged Out SuccessFully"});
         }
     }catch(err) {
-        console.log("Token Not Authenticated", err.message);
         res.send({done:"false"});
     }
 
