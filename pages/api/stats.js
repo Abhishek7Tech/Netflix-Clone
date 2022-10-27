@@ -1,9 +1,9 @@
-import Jwt from "jsonwebtoken";
 import {
   findVideoByUserId,
   insertStats,
   updateStats,
 } from "../../lib/db/hasura";
+import { verifyToken } from "../../lib/utils";
 
 export default async function Stats(req, res) {
   console.log(req.query);
@@ -14,15 +14,12 @@ export default async function Stats(req, res) {
       const videoId = req.query.videoId || req.body.videoId;
       const { favourited, watched = true } = req.body;
       if (videoId) {
-        const decoded = Jwt.verify(token, process.env.JWT_SECRET);
-        console.log(decoded);
+        const decoded = await verifyToken(token);
         const userId = decoded.issuer;
 
-        const doesStatsExsist = await findVideoByUserId(
-          token,
-          userId,
-          videoId
-        );
+        //Redirect in serverSide if something went wrong!!!//
+       
+        const doesStatsExsist = await findVideoByUserId(token, userId, videoId);
 
         const findUserVideos = doesStatsExsist.data.stats.length;
         console.log(findUserVideos);
@@ -34,7 +31,7 @@ export default async function Stats(req, res) {
               favourited,
               userId,
               watched,
-              videoId: "b9EkMc79ZSU",
+              videoId,
             });
             res.send({ stats });
           } else {
@@ -43,7 +40,7 @@ export default async function Stats(req, res) {
               favourited: 1,
               userId,
               watched: true,
-              videoId: "mYfJxlgR2jw",
+              videoId,
             });
             res.send({ stats });
           }

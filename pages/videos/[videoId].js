@@ -48,9 +48,8 @@ const Videos = ({ video }) => {
         method: "GET"
       });
       const data = await response.json();
-      console.log(data);
 
-      if(data.stats.length){
+      if(data > 0){
         const favourited = data.stats[0].favourited;
         console.log(favourited);
 

@@ -7,16 +7,17 @@ import { magic } from "../../lib/magic-client";
 export const Navbar = () => {
   const [dropdown, setDropDown] = useState(false);
   const [email, setEmail] = useState("");
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
     const getUserEmail = async () => {
       try {
         const {email,issuer} = await magic.user.getMetadata();
-        console.log(email);
         setEmail(email);
 
         const idToken = await magic.user.getIdToken();
         console.log({idToken});
+        setToken(idToken);
 
       } catch (error) {
         console.log("Email address is invalid", error.message);
@@ -48,6 +49,11 @@ export const Navbar = () => {
     try{
       await magic.user.logout();
       router.push("/login");
+      const response = await fetch("/api/logout",{
+       method:"GET"
+      });
+      const loggedOut = await response.json();
+      console.log(loggedOut);
     }catch (error) {
       console.error("Error Retriving email",error);
       router.push("/login");
