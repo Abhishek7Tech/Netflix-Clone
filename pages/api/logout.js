@@ -13,6 +13,7 @@ export default async function logout(req, res) {
     }
     try{
         const isAValidToken = await verifyToken(token);
+        setTokenCookie("",res);
         await magicAdmin.users.logoutByIssuer(token);
         if(isAValidToken){
             res.send({msg:"Logged Out SuccessFully"});
