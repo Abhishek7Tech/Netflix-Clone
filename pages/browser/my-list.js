@@ -6,6 +6,7 @@ import { getMyListVideos } from "../../lib/videos";
 import styles from "../../styles/mylist.module.css";
 
 export async function getServerSideProps(context) {
+  console.log("CONTEXT",context);
   const {token,userId} = await redirectUser(context);
   if (!userId) {
     return {
