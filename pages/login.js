@@ -40,12 +40,7 @@ const Login = () => {
       return;
     }
 
-    if (email !== "abhishektab45@gmail.com") {
-      showUserMsg("User not found!");
-      setEmail("");
-      return;
-    }
-    if (email.includes("@") && email === "abhishektab45@gmail.com") {
+    if (email.includes("@")) {
       showUserMsg("");
       setIsLoading(true);
 
